@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "py",
             "args": [
-                "${file}"
+                "${workspaceFolder}\\main.py"
             ],
             "group": {
                 "kind": "build",
