@@ -13,6 +13,19 @@ class World:
         # Initialize area attribute with desired size and object data type
         self.area = np.empty(shape=(size, size), dtype='O')
 
+    # Methon for map showing
+    def draw(self):
+        size = self.getSize()
+        area = np.zeros(shape=size)
+        for x in range(0, size[0]):
+            for y in range(0, size[1]):
+                if isinstance(self.area[x, y], Blob):
+                    area[x, y] = 2
+                elif isinstance(self.area[x, y], Food):
+                    area[x, y] = 1
+        plt.imshow(area)
+        plt.show()
+
     # Method handling random new food generation on map
     def generateFood(self, count):
         size = self.getSize()[0]
