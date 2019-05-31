@@ -11,6 +11,8 @@ from world import World
 
 # How many days to run simulation for
 simulationDuration = 15
+# How long can one day last
+maximumDayLength = 50
 # Number of new food generated each day
 foodQuantity = 10
 # World size (square)
@@ -18,4 +20,4 @@ worldSize = 25
 # Number of Blobs created at start
 initialBlobsCount = 10
 
-universe = Universe(initialBlobsCount, worldSize, simulationDuration, foodQuantity)
+universe = Universe(initialBlobsCount, worldSize, simulationDuration, maximumDayLength, foodQuantity)

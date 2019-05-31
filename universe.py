@@ -5,11 +5,12 @@ from food import Food
 from world import World
 
 class Universe:
-    def __init__(self, initialBlobsCount, worldSize, simulationDuration, foodQuantity):
+    def __init__(self, initialBlobsCount, worldSize, simulationDuration, maximumDayLength, foodQuantity):
         self.world = self.initializeWorld(worldSize)
         self.Blobs = self.initializeBlobs(initialBlobsCount)
         self.Days = []
         self.simulationDuration = simulationDuration
+        self.maximumDayLength = maximumDayLength
         self.foodQuantity = foodQuantity
 
         self.runSimulation()
@@ -31,5 +32,5 @@ class Universe:
             aliveBlobs = self.Blobs
             if (i > 0):
                 aliveBlobs = self.Days[i-1].getAliveBlobs()
-            currentDay = Day(i, self.world, self.foodQuantity, aliveBlobs)
+            currentDay = Day(i, self.maximumDayLength, self.world, self.foodQuantity, aliveBlobs)
             self.Days.append(currentDay)
