@@ -26,6 +26,10 @@ class Blob:
                 move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5) if self.relativePosition[i] + displacement[i] > 0 else floor(self.relativePosition[i] + displacement[i] - 0.5)
         return move
 
+    # Method handling food consumption
+    def eat(self, food):
+        pass
+
     # Method for movement handling
     def move(self, world):
         direction = random()*360

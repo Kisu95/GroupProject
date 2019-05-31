@@ -58,12 +58,21 @@ class World:
         result = True if self.area[position] == None else False
         return result
 
+    # Method returning true if object (or object on position) is food
+    def isFood(self, obj):
+        if (isinstance(obj, tuple)):
+            obj = self.area[obj]
+        return True if isinstance(obj, Food) else False
+
     # Method handling blob movement
     def moveBlob(self, blob, position, move):
         if (self.area[position] != blob):
             return position
         else:
             newPosition = (position[0] + move[0], position[1] + move[1])
+            obj = self.area[newPosition]
+            if (self.isFood(obj)):
+                blob.eat(obj)
             self.area[newPosition] = blob
             self.area[position] = None
             return newPosition
