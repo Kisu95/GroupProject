@@ -67,6 +67,10 @@ class World:
     def getAreaDetails(self, chunk):
         return self.area[chunk]
 
+    # Method returning remaning food on the world
+    def getRemainingFood(self):
+        return self.Food
+
     # Method returning world size as tuple (x,y)
     def getSize(self):
         size = np.shape(self.area)
@@ -95,3 +99,9 @@ class World:
             self.area[newPosition] = blob
             self.area[position] = None
             return newPosition
+
+    # Method removes food from world's food array
+    def removeFood(self, food):
+        foodPosition = food.getPosition()
+        self.area[foodPosition] = None
+        self.Food.remove(food)

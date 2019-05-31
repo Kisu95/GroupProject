@@ -63,6 +63,7 @@ class Blob:
 
     # Method handling food consumption
     def eat(self, food):
+        food.removeFromWorld()
         self.food += 1
 
     # Method for day ending

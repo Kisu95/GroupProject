@@ -29,6 +29,8 @@ class Day:
         print(len(self.movingBlobs))
         for blob in copy(self.aliveBlobs):
             blob.endDay(self, self.world)
+        for food in copy (self.world.getRemainingFood()):
+            food.removeFromWorld()
         self.world.draw()
 
     # Method returning all blobs alive
