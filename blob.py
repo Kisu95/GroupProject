@@ -23,8 +23,7 @@ class Blob:
         for i in range(2):
             # Check if 0.5 offset barrier was exceeded
             if abs(self.relativePosition[i] + displacement[i]) > 0.5:
-                # Calculate cell move accordindly to offset direction (if negative we must substract 0.5 to get correct rounding)
-                move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5) if self.relativePosition[i] + displacement[i] > 0 else floor(self.relativePosition[i] + displacement[i] - 0.5)
+                move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5)
         return move
 
     # Method checking if movement in desired direction is possible
