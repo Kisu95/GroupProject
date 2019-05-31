@@ -13,6 +13,9 @@ class Day:
 
     # Method handling day end
     def endDay(self):
+        print(len(self.movingBlobs))
+        for blob in copy(self.movingBlobs):
+            self.killBlob(blob)
         self.world.draw()
 
     # Method returning all blobs alive
@@ -37,8 +40,6 @@ class Day:
             for blob in self.movingBlobs:
                 blob.move(self, self.world)
             dayLength += 1
-        for blob in self.movingBlobs:
-            self.killBlob(blob)
 
     # Method for day start
     def startDay(self):
