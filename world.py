@@ -37,7 +37,7 @@ class World:
                     area[x, y] = 2
                 elif isinstance(self.area[x, y], Food):
                     area[x, y] = 1
-        plt.pause(1)
+        plt.pause(0.1)
         plt.imshow(area, origin='lower')
 
     # Method handling random new food generation on map

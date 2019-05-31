@@ -6,6 +6,12 @@ class Day:
         self.aliveBlobs = Blobs
         self.movingBlobs = Blobs
 
+        self.startDay()
+
+    # Method handling day end
+    def endDay(self):
+        self.world.draw()
+
     # Method returning all blobs alive
     def getAliveBlobs(self):
         return self.aliveBlobs
@@ -13,3 +19,18 @@ class Day:
     # Method killing blob (removes him from the world and)
     def killBlob(self, blob):
         pass
+
+    # Method handling blobs movement (tick based) unitl all are either dead or at home
+    def moveBlobs(self):
+        dayLength = 0
+        while (len(self.movingBlobs) > 0 and dayLength < 25):
+            self.world.draw()
+            for blob in self.movingBlobs:
+                blob.move(self, self.world)
+            dayLength += 1
+
+    # Method for day start
+    def startDay(self):
+        print(f"Day {self.dayNumber} started!")
+        self.moveBlobs()
+        self.endDay()

@@ -84,7 +84,7 @@ class Blob:
         return True if (self.position == position) else False
 
     # Method for movement handling
-    def move(self, world):
+    def move(self, day, world):
         direction = random()*360
         distance = 0
         # Check if has eaten any food
