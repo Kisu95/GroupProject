@@ -37,11 +37,11 @@ class Blob:
         # Check if new position is empty
         return True if world.isEmpty(newPosition) else (True if world.isFood(newPosition) else False)
 
-    # Method returning direction to home in degrees
-    def getDirectionToHome(self):
-        positionFromHome = (self.position[0] - self.home[0], self.position[1] - self.home[1])
-        directionToHome = degrees(atan2(*positionFromHome))
-        return directionToHome
+    # Method returning direction to target in degrees
+    def getDirectionToTarget(self, target):
+        positionFromTarget = (self.position[0] - target[0], self.position[1] - target[1])
+        directionToTarget = degrees(atan2(*positionFromTarget))
+        return directionToTarget
 
     # Method handling food consumption
     def eat(self, food):
@@ -60,7 +60,7 @@ class Blob:
             if (self.inHome()):
                 return True
             else:
-                direction = self.getDirectionToHome()
+                direction = self.getDirectionToTarget(self.home)
         dx, dy = self.calculateDisplacement(direction)
         displacement = (dx, dy)
         move = self.calculateMovement(displacement)
