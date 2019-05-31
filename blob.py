@@ -32,12 +32,6 @@ class Blob:
                 move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5)
         return move
 
-    # Method returns distance to target
-    def distanceToTarget(self, target):
-        absoultePosition = self.getTruePosition()
-        distance = norm(np.array(absoultePosition) - np.array(target))
-        return distance
-
     # Method checking if movement in desired direction is possible
     def canMove(self, world, move):
         newPosition = (self.position[0] + move[0], self.position[1] + move[1])
@@ -58,6 +52,16 @@ class Blob:
                     return (self.position[0] + x-1, self.position[1] + y-1)
         raise ValueError('No viable target in range!')
 
+    # Method returns distance to target
+    def distanceToTarget(self, target):
+        absoultePosition = self.getTruePosition()
+        distance = norm(np.array(absoultePosition) - np.array(target))
+        return distance
+
+    # Method handling food consumption
+    def eat(self, food):
+        self.food += 1
+
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
         positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
@@ -67,10 +71,6 @@ class Blob:
     # Method returning true blob position (with offset)
     def getTruePosition(self):
         return (self.position[0] + self.relativePosition[0], self.position[1] + self.relativePosition[1])
-
-    # Method handling food consumption
-    def eat(self, food):
-        self.food += 1
 
     # Method checking if blob is in home
     def inHome(self):
