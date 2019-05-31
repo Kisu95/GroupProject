@@ -25,6 +25,16 @@ class Blob:
                 move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5) if self.relativePosition[i] + displacement[i] > 0 else floor(self.relativePosition[i] + displacement[i] - 0.5)
         return move
 
+    # Method checking if movement in desired direction is possible
+    def canMove(self, world, move):
+        newPosition = (self.position[0] + move[0], self.position[1] + move[1])
+        worldSize = world.getSize()
+        # Check if new position is outside of the world
+        if (newPosition[0] < 0 or newPosition[1] < 0 or newPosition[0] >= worldSize[0] or newPosition[1] >= worldSize[1]):
+            return False
+        # Check if new position is empty
+        return True if world.isEmpty(newPosition) else (True if world.isFood(newPosition) else False)
+
     # Method handling food consumption
     def eat(self, food):
         pass
@@ -35,6 +45,12 @@ class Blob:
         dx, dy = self.calculateDisplacement(direction)
         displacement = (dx, dy)
         move = self.calculateMovement(displacement)
+        # If movement in selected direction is not possible select another
+        while (not self.canMove(world, move) and (move[0] != 0 or move[1] != 0)):
+            direction = random()*360
+            dx, dy = self.calculateDisplacement(direction)
+            displacement = (dx, dy)
+            move = self.calculateMovement(displacement)
         # Update position relative to cell
         self.relativePosition = (self.relativePosition[0] + dx, self.relativePosition[1] + dy)
         # Execute movement
