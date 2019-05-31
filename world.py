@@ -59,5 +59,5 @@ class World:
         return result
     
     # Method handling blob movement
-    def moveBlob(self, blob, move):
+    def moveBlob(self, blob, position, move):
         pass
