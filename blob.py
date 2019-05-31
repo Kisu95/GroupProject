@@ -14,7 +14,10 @@ class Blob:
         self.home = self.position
         self.food = 0
         self.speed = 1
+        # Used for remembering current destination
+        self.target = None
         self.updateSurroundingsDetails(world)
+        self.planDayRoute(world)
 
     # Method for displacement calculation
     def calculateDisplacement(self, direction):
@@ -76,6 +79,10 @@ class Blob:
     def inHome(self):
         return True if (self.position == self.home) else False
 
+    # Method checking if blob is at given position
+    def isAt(self, position):
+        return True if (self.position == position) else False
+
     # Method for movement handling
     def move(self, world):
         direction = random()*360
@@ -88,11 +95,17 @@ class Blob:
             else:
                 direction = self.getDirectionToTarget(self.home)
         else:
+            if (self.isAt(self.target)):
+                self.target = None
             # Try to find target where to go
             try:
-                target = self.checkSurroundings(world)
-                direction = self.getDirectionToTarget(target)
-                distance = self.distanceToTarget(target)
+                # Try to use preplanned route first
+                if (len(self.plannedRoute) > 0 and (self.target == None)):
+                    self.target = self.plannedRoute.pop(0)
+                # Check if there is any food nearby
+                self.target = self.checkSurroundings(world)
+                direction = self.getDirectionToTarget(self.target)
+                distance = self.distanceToTarget(self.target)
             except ValueError:
                 # No target in range, so we proceed
                 pass
@@ -117,6 +130,16 @@ class Blob:
             # Update position relative to cell substracting movement length (to get position in relation to new cell)
             self.relativePosition = (self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
             self.position = world.moveBlob(self, self.position, move)
+
+    # Method for daily route planning
+    def planDayRoute(self, world):
+        route = []
+        size = world.getSize()
+        for i in range(0,floor(random()*3)):
+            x = floor(random()*(size[0]-2))+1
+            y = floor(random()*(size[1]-2))+1
+            route.append((x, y))
+        self.plannedRoute = route
 
     # Method updates surrounding details by requesting appropriate slice of map
     def updateSurroundingsDetails(self, world):
