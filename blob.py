@@ -1,3 +1,4 @@
+# Modules
 from random import random
 from math import radians, cos, sin, floor
 
@@ -9,11 +10,9 @@ class Blob:
 
     # Method for displacement calculation
     def calculateDisplacement(self, direction):
-        direction = random()*360
         dx = cos(radians(direction)) * self.speed
         dy = sin(radians(direction)) * self.speed
         return dx, dy
-        self.relativePosition = (self.relativePosition[0] + dx, self.relativePosition[1] + dy)
 
     # Method for movement calculation
     def calculateMovement(self, displacement):
