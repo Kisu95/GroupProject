@@ -38,3 +38,6 @@ class World:
     def getSize(self):
         size = np.shape(self.area)
         return size
+    # Method handling blob movement
+    def moveBlob(self, blob, move):
+        pass
