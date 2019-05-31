@@ -71,6 +71,10 @@ class Blob:
         directionToTarget = degrees(atan2(*positionFromTarget))
         return directionToTarget
 
+    # Method returning blob position (in cells)
+    def getPosition(self):
+        return self.position
+
     # Method returning true blob position (with offset)
     def getTruePosition(self):
         return (self.position[0] + self.relativePosition[0], self.position[1] + self.relativePosition[1])
@@ -91,6 +95,7 @@ class Blob:
         if (self.food > 0):
             # Check if returned home already
             if (self.inHome()):
+                day.blobMoveFinished(self)
                 return True
             else:
                 direction = self.getDirectionToTarget(self.home)

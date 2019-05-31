@@ -13,6 +13,10 @@ class World:
         # Initialize area attribute with desired size and object data type
         self.area = np.empty(shape=(size, size), dtype='O')
 
+    # Method for object removal by position
+    def clearPosition(self, position):
+        self.area[position] = None
+
     # Method selecting position for new blob
     def createBlob(self, blob):
         # Create possible positions on world's border
@@ -31,6 +35,7 @@ class World:
     def draw(self):
         size = self.getSize()
         area = np.zeros(shape=size)
+        # Find all objects on the map and store them as numbers (for image generation)
         for x in range(0, size[0]):
             for y in range(0, size[1]):
                 if isinstance(self.area[x, y], Blob):
