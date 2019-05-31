@@ -12,6 +12,8 @@ class Universe:
         self.simulationDuration = simulationDuration
         self.foodQuantity = foodQuantity
 
+        self.runSimulation()
+
     # Method initializing Blobs
     def initializeBlobs(self, initialBlobsCount):
         Blobs = []
@@ -22,3 +24,12 @@ class Universe:
     # Method initializing World
     def initializeWorld(self, worldSize):
         return World(worldSize)
+
+    # Method running simulation
+    def runSimulation(self):
+        for i in range(0, self.simulationDuration):
+            aliveBlobs = self.Blobs
+            if (i > 0):
+                aliveBlobs = self.Days[i-1].getAliveBlobs()
+            currentDay = Day(i, self.world, self.foodQuantity, aliveBlobs)
+            self.Days.append(currentDay)
