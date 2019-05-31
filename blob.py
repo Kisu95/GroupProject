@@ -38,7 +38,7 @@ class Blob:
 
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
-        positionFromTarget = (self.position[0] - target[0], self.position[1] - target[1])
+        positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
         directionToTarget = degrees(atan2(*positionFromTarget))
         return directionToTarget
 
