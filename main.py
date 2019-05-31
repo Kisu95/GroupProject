@@ -16,7 +16,8 @@ worldSize = 25
 
 # Initialize world
 world = World(worldSize)
-
+for i in range(0, 30):
+    blob1 = Blob(world)
 # Run simulation
 for dayNumber in range (0, simulationDuration):
     world.generateFood(foodQuantity)

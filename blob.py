@@ -2,8 +2,9 @@ from random import random
 from math import radians, cos, sin, floor
 
 class Blob:
-    def __init__(self):
+    def __init__(self, world):
         self.relativePosition = (0, 0)
+        self.position = world.createBlob(self)
         self.speed = 1
 
     # Method for movement calculation
