@@ -2,6 +2,7 @@
 from blob import Blob
 from day import Day
 from food import Food
+from universe import Universe
 from world import World
 
 """
@@ -14,12 +15,7 @@ simulationDuration = 15
 foodQuantity = 10
 # World size (square)
 worldSize = 25
+# Number of Blobs created at start
+initialBlobsCount = 10
 
-# Initialize world
-world = World(worldSize)
-# Initialize days
-Days = []
-
-# Run simulation
-for dayNumber in range (0, simulationDuration):
-    Days.append(Day(world, foodQuantity))
+universe = Universe(initialBlobsCount, worldSize, simulationDuration, foodQuantity)
