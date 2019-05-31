@@ -57,7 +57,13 @@ class World:
     def isEmpty(self, position):
         result = True if self.area[position] == None else False
         return result
-    
+
     # Method handling blob movement
     def moveBlob(self, blob, position, move):
-        pass
+        if (self.area[position] != blob):
+            return position
+        else:
+            newPosition = (position[0] + move[0], position[1] + move[1])
+            self.area[newPosition] = blob
+            self.area[position] = None
+            return newPosition
