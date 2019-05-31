@@ -53,6 +53,7 @@ class Blob:
     # Method for movement handling
     def move(self, world):
         direction = random()*360
+        distance = 0
         # Check if has eaten any food
         if (self.food > 0):
             # Check if returned home already
@@ -62,6 +63,11 @@ class Blob:
                 direction = self.getDirectionToTarget(self.home)
         dx, dy = self.calculateDisplacement(direction)
         displacement = (dx, dy)
+        # Check if distance to target is lower than maximum displacement length and shorten displacement, so blob cannot overshoot his destination
+        if (distance != 0):
+            displacementLength = norm(displacement)
+            if (displacementLength > distance):
+                displacement = (displacement[0] / 2, displacement[1] / 2)
         move = self.calculateMovement(displacement)
         # If movement in selected direction is not possible select another
         while ((move[0] != 0 or move[1] != 0) and (not self.canMove(world, move))):
