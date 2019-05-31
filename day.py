@@ -4,6 +4,7 @@ class Day:
     def __init__(self, number, maximumDayLength, world, foodQuantity, Blobs):
         self.dayNumber = number
         self.maximumDayLength = maximumDayLength
+        self.dayTime = 0
         self.world = world
         self.world.generateFood(foodQuantity)
         self.aliveBlobs = copy(Blobs)
@@ -22,6 +23,10 @@ class Day:
     def getAliveBlobs(self):
         return self.aliveBlobs
 
+    # Method returning current day time
+    def getDayTime(self):
+        return self.dayTime
+
     # Method killing blob (removes him from the world and)
     def killBlob(self, blob):
         blobPosition = blob.getPosition()
@@ -34,12 +39,11 @@ class Day:
 
     # Method handling blobs movement (tick based) unitl all are either dead or at home
     def moveBlobs(self):
-        dayLength = 0
-        while (len(self.movingBlobs) > 0 and dayLength < self.maximumDayLength):
+        while (len(self.movingBlobs) > 0 and self.dayTime < self.maximumDayLength):
             self.world.draw()
             for blob in self.movingBlobs:
                 blob.move(self, self.world)
-            dayLength += 1
+            self.dayTime += 1
 
     # Method for day start
     def startDay(self):
