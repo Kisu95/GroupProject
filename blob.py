@@ -50,6 +50,10 @@ class Blob:
         directionToTarget = degrees(atan2(*positionFromTarget))
         return directionToTarget
 
+    # Method returning true blob position (with offset)
+    def getTruePosition(self):
+        return (self.position[0] + self.relativePosition[0], self.position[1] + self.relativePosition[1])
+
     # Method handling food consumption
     def eat(self, food):
         self.food += 1
