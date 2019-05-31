@@ -4,6 +4,9 @@ from math import radians, degrees, cos, sin, floor, atan2, sqrt
 import numpy as np
 from numpy.linalg import norm
 
+# Files
+from food import Food
+
 class Blob:
     def __init__(self, world):
         self.relativePosition = (0, 0)
@@ -11,6 +14,7 @@ class Blob:
         self.home = self.position
         self.food = 0
         self.speed = 1
+        self.updateSurroundingsDetails(world)
 
     # Method for displacement calculation
     def calculateDisplacement(self, direction):
@@ -44,6 +48,16 @@ class Blob:
         # Check if new position is empty
         return True if world.isEmpty(newPosition) else (True if world.isFood(newPosition) else False)
 
+    # Method to find food target position in surroundings
+    def checkSurroundings(self, world):
+        surroundings = self.updateSurroundingsDetails(world)
+        size = np.shape(surroundings)
+        for x in range(0, size[0]):
+            for y in range(0, size[1]):
+                if (isinstance(surroundings[x, y], Food)):
+                    return (self.position[0] + x-1, self.position[1] + y-1)
+        raise ValueError('No viable target in range!')
+
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
         positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
@@ -73,6 +87,15 @@ class Blob:
                 return True
             else:
                 direction = self.getDirectionToTarget(self.home)
+        else:
+            # Try to find target where to go
+            try:
+                target = self.checkSurroundings(world)
+                direction = self.getDirectionToTarget(target)
+                distance = self.distanceToTarget(target)
+            except ValueError:
+                # No target in range, so we proceed
+                pass
         dx, dy = self.calculateDisplacement(direction)
         displacement = (dx, dy)
         # Check if distance to target is lower than maximum displacement length and shorten displacement, so blob cannot overshoot his destination
@@ -94,3 +117,9 @@ class Blob:
             # Update position relative to cell substracting movement length (to get position in relation to new cell)
             self.relativePosition = (self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
             self.position = world.moveBlob(self, self.position, move)
+
+    # Method updates surrounding details by requesting appropriate slice of map
+    def updateSurroundingsDetails(self, world):
+        chunk = (slice(self.position[0]-1, self.position[0]+1, 1), slice(self.position[1]-1, self.position[1]+1, 1))
+        self.surroundings = world.getAreaDetails(chunk)
+        return self.surroundings

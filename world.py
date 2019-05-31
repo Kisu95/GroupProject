@@ -48,6 +48,10 @@ class World:
             # We don't check if there is anything, so we may end up removing something from cell
             self.area[x,y] = Food()
 
+    # Method returning area details (map section)
+    def getAreaDetails(self, chunk):
+        return self.area[chunk]
+
     # Method returning world size as tuple (x,y)
     def getSize(self):
         size = np.shape(self.area)
