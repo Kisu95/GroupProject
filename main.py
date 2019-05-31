@@ -1,5 +1,6 @@
 # Files
 from blob import Blob
+from day import Day
 from food import Food
 from world import World
 
@@ -16,9 +17,9 @@ worldSize = 25
 
 # Initialize world
 world = World(worldSize)
+# Initialize days
+Days = []
 
 # Run simulation
 for dayNumber in range (0, simulationDuration):
-    world.generateFood(foodQuantity)
-    # Show map at the day end
-    world.draw()
+    Days.append(Day(world, foodQuantity))
