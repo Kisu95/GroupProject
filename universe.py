@@ -29,8 +29,7 @@ class Universe:
     # Method running simulation
     def runSimulation(self):
         for i in range(0, self.simulationDuration):
-            aliveBlobs = self.Blobs
             if (i > 0):
-                aliveBlobs = self.Days[i-1].getAliveBlobs()
-            currentDay = Day(i, self.maximumDayLength, self.world, self.foodQuantity, aliveBlobs)
+                self.Blobs = self.Days[i-1].getAliveBlobs()
+            currentDay = Day(i, self.maximumDayLength, self.world, self.foodQuantity, self.Blobs)
             self.Days.append(currentDay)
