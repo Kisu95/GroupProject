@@ -43,5 +43,11 @@ class Day:
     # Method for day start
     def startDay(self):
         print(f"Day {self.dayNumber} started!")
+        self.wakeBlobs()
         self.moveBlobs()
         self.endDay()
+
+    # Method for initialization of new day for blobs
+    def wakeBlobs(self):
+        for blob in self.aliveBlobs:
+            blob.newDay(self, self.world)

@@ -136,6 +136,12 @@ class Blob:
             self.relativePosition = (self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
             self.position = world.moveBlob(self, self.position, move)
 
+    # Method for new day preparation
+    def newDay(self, day, world):
+        self.food = 0
+        self.target = None
+        self.planDayRoute(world)
+
     # Method for daily route planning
     def planDayRoute(self, world):
         route = []
