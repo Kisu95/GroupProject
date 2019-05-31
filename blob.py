@@ -8,7 +8,7 @@ from numpy.linalg import norm
 from food import Food
 
 class Blob:
-    def __init__(self, world):
+    def __init__(self, world, parent):
         self.relativePosition = (0, 0)
         self.position = world.createBlob(self)
         self.home = self.position
@@ -140,6 +140,10 @@ class Blob:
             y = floor(random()*(size[1]-2))+1
             route.append((x, y))
         self.plannedRoute = route
+
+    # Method handling blob replication
+    def replicate(self):
+        pass
 
     # Method updates surrounding details by requesting appropriate slice of map
     def updateSurroundingsDetails(self, world):
