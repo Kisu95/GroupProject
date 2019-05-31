@@ -1,6 +1,8 @@
 # Modules
 from random import random
-from math import radians, degrees, cos, sin, floor, atan2
+from math import radians, degrees, cos, sin, floor, atan2, sqrt
+import numpy as np
+from numpy.linalg import norm
 
 class Blob:
     def __init__(self, world):
@@ -25,6 +27,12 @@ class Blob:
             if abs(self.relativePosition[i] + displacement[i]) > 0.5:
                 move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5)
         return move
+
+    # Method returns distance to target
+    def distanceToTarget(self, target):
+        absoultePosition = self.getTruePosition()
+        distance = norm(np.array(absoultePosition) - np.array(target))
+        return distance
 
     # Method checking if movement in desired direction is possible
     def canMove(self, world, move):
