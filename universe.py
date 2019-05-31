@@ -31,5 +31,7 @@ class Universe:
         for i in range(0, self.simulationDuration):
             if (i > 0):
                 self.Blobs = self.Days[i-1].getAliveBlobs()
+            if (len(self.Blobs) == 0):
+                return False
             currentDay = Day(i, self.maximumDayLength, self.world, self.foodQuantity, self.Blobs)
             self.Days.append(currentDay)
