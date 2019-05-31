@@ -1,11 +1,13 @@
 # Modules
 from random import random
-from math import radians, cos, sin, floor
+from math import radians, degrees, cos, sin, floor, atan2
 
 class Blob:
     def __init__(self, world):
         self.relativePosition = (0, 0)
         self.position = world.createBlob(self)
+        self.home = self.position
+        self.food = 0
         self.speed = 1
 
     # Method for displacement calculation
@@ -35,13 +37,30 @@ class Blob:
         # Check if new position is empty
         return True if world.isEmpty(newPosition) else (True if world.isFood(newPosition) else False)
 
+    # Method returning direction to home in degrees
+    def getDirectionToHome(self):
+        positionFromHome = (self.position[0] - self.home[0], self.position[1] - self.home[1])
+        directionToHome = degrees(atan2(*positionFromHome))
+        return directionToHome
+
     # Method handling food consumption
     def eat(self, food):
-        pass
+        self.food += 1
+
+    # Method checking if blob is in home
+    def inHome(self):
+        return True if (self.position == self.home) else False
 
     # Method for movement handling
     def move(self, world):
         direction = random()*360
+        # Check if has eaten any food
+        if (self.food > 0):
+            # Check if returned home already
+            if (self.inHome()):
+                return True
+            else:
+                direction = self.getDirectionToHome()
         dx, dy = self.calculateDisplacement(direction)
         displacement = (dx, dy)
         move = self.calculateMovement(displacement)
