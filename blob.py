@@ -65,7 +65,7 @@ class Blob:
         displacement = (dx, dy)
         move = self.calculateMovement(displacement)
         # If movement in selected direction is not possible select another
-        while (not self.canMove(world, move) and (move[0] != 0 or move[1] != 0)):
+        while ((move[0] != 0 or move[1] != 0) and (not self.canMove(world, move))):
             direction = random()*360
             dx, dy = self.calculateDisplacement(direction)
             displacement = (dx, dy)
