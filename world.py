@@ -12,6 +12,7 @@ class World:
     def __init__(self, size):
         # Initialize area attribute with desired size and object data type
         self.area = np.empty(shape=(size, size), dtype='O')
+        self.Food = []
 
     # Method for object removal by position
     def clearPosition(self, position):
@@ -31,6 +32,18 @@ class World:
         self.area[position] = blob
         return position
 
+    # Method selecting position for new food
+    def createFood(self, food):
+        size = self.getSize()[0]
+        # Create position not on world's border
+        position = (floor(random()*(size-2))+1, floor(random()*(size-2))+1)
+        # If position is occupied repeat until empty position is found
+        while (not self.isEmpty(position)):
+            position = (floor(random()*(size-2))+1, floor(random()*(size-2))+1)
+        # Set position as occupied by the food
+        self.area[position] = food
+        return position
+
     # Method for map showing
     def draw(self):
         size = self.getSize()
@@ -47,11 +60,8 @@ class World:
 
     # Method handling random new food generation on map
     def generateFood(self, count):
-        size = self.getSize()[0]
         for i in range(0, count):
-            x,y = (floor(random()*size), floor(random()*size))
-            # We don't check if there is anything, so we may end up removing something from cell
-            self.area[x,y] = Food()
+            self.Food.append(Food(self))
 
     # Method returning area details (map section)
     def getAreaDetails(self, chunk):

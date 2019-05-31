@@ -1,3 +1,4 @@
 class Food:
-    def __init__(self):
-        pass
+    def __init__(self, world):
+        self.position = world.createFood(self)
+        self.world = world
