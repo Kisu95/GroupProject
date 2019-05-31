@@ -9,7 +9,7 @@ from world import World
 """
 
 # How many days to run simulation for
-simulationDuration = 3
+simulationDuration = 15
 # Number of new food generated each day
 foodQuantity = 10
 # World size (square)
