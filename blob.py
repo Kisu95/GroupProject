@@ -65,6 +65,13 @@ class Blob:
     def eat(self, food):
         self.food += 1
 
+    # Method for day ending
+    def endDay(self, day, world):
+        if (self.food > 2):
+            self.replicate()
+        elif (self.food == 0):
+            self.kill(day, world)
+
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
         positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
@@ -86,6 +93,10 @@ class Blob:
     # Method checking if blob is at given position
     def isAt(self, position):
         return True if (self.position == position) else False
+
+    # Method for blob killing
+    def kill(self, day, world):
+        day.killBlob(self)
 
     # Method for movement handling
     def move(self, day, world):

@@ -14,8 +14,8 @@ class Day:
     # Method handling day end
     def endDay(self):
         print(len(self.movingBlobs))
-        for blob in copy(self.movingBlobs):
-            self.killBlob(blob)
+        for blob in copy(self.aliveBlobs):
+            blob.endDay(self, self.world)
         self.world.draw()
 
     # Method returning all blobs alive
