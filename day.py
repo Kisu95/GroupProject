@@ -1,5 +1,8 @@
 from copy import copy
 
+# Files
+from blob import Blob
+
 class Day:
     def __init__(self, number, maximumDayLength, world, foodQuantity, Blobs):
         self.dayNumber = number
@@ -9,8 +12,17 @@ class Day:
         self.world.generateFood(foodQuantity)
         self.aliveBlobs = copy(Blobs)
         self.movingBlobs = copy(Blobs)
-
+        # Start day simulation
         self.startDay()
+
+    # Method removes blob from movingBlobs 
+    def blobMoveFinished(self, blob):
+        self.movingBlobs.remove(blob)
+
+    # Method handling new blob creation
+    def createBlob(self, parent):
+        blob = Blob(self.world, parent)
+        self.aliveBlobs.append(blob)
 
     # Method handling day end
     def endDay(self):
@@ -33,9 +45,6 @@ class Day:
         self.world.clearPosition(blobPosition)
         self.movingBlobs.remove(blob)
         self.aliveBlobs.remove(blob)
-
-    def blobMoveFinished(self, blob):
-        self.movingBlobs.remove(blob)
 
     # Method handling blobs movement (tick based) unitl all are either dead or at home
     def moveBlobs(self):

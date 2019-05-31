@@ -68,7 +68,7 @@ class Blob:
     # Method for day ending
     def endDay(self, day, world):
         if (self.food > 2):
-            self.replicate()
+            self.replicate(day)
         elif (self.food == 0):
             self.kill(day, world)
 
@@ -164,8 +164,8 @@ class Blob:
         self.plannedRoute = route
 
     # Method handling blob replication
-    def replicate(self):
-        pass
+    def replicate(self, day):
+        day.createBlob(self)
 
     # Method updates surrounding details by requesting appropriate slice of map
     def updateSurroundingsDetails(self, world):
