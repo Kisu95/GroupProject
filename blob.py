@@ -66,6 +66,7 @@ class Blob:
 
     # Method handling food consumption
     def eat(self, food):
+        self.energy += 0.8
         food.removeFromWorld()
         self.food += 1
 
@@ -91,18 +92,22 @@ class Blob:
     def getEnergy(self):
         return self.energy
 
-    # Method useEnergy if blob is not in home
+    # Method useEnergy if blob is not in home, replicate if energy more then 2
     def useEnergy(self, day, world):
         if (self.inHome() == False):
-            self.energy = self.getEnergy() - random()*0.1
+            self.energy = self.getEnergy(
+            ) - (self.relativePosition[1] - self.relativePosition[0])
             if (self.energy > 0):
                 return self.energy
+            elif (self.energy > 2):
+                self.replicate(day)
             else:
                 self.kill(day, world)
 
     # Add energy for survivors
+
     def initEnergy(self):
-        self.energy = self.getEnergy() + 1
+        self.energy = self.getEnergy() + 3
 
     # Method returning true blob position (with offset)
 
@@ -175,7 +180,6 @@ class Blob:
 
     # Method for new day preparation
     def newDay(self, day, world):
-        self.initEnergy()
         self.food = 0
         self.target = None
         self.planDayRoute(world)
