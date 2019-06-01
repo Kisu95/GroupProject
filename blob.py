@@ -66,14 +66,15 @@ class Blob:
 
     # Method handling food consumption
     def eat(self, food):
-        self.energy += 0.8
         food.removeFromWorld()
         self.food += 1
+        self.energy += 2
 
     # Method for day ending
     def endDay(self, day, world):
-        if (self.food > 2):
+        if (self.energy > 2):
             self.replicate(day)
+            self.energy -= 2
         elif (self.food == 0):
             self.kill(day, world)
 
@@ -99,15 +100,14 @@ class Blob:
             ) - (self.relativePosition[1] - self.relativePosition[0])
             if (self.energy > 0):
                 return self.energy
-            elif (self.energy > 2):
-                self.replicate(day)
+            # elif (self.energy > 2):
+            #    self.replicate(day)
             else:
                 self.kill(day, world)
 
     # Add energy for survivors
-
-    def initEnergy(self):
-        self.energy = self.getEnergy() + 3
+    # def initEnergy(self):
+    #    self.energy = self.getEnergy() + 1
 
     # Method returning true blob position (with offset)
 
