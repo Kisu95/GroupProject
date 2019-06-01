@@ -20,4 +20,5 @@ worldSize = 25
 # Number of Blobs created at start
 initialBlobsCount = 10
 
-universe = Universe(initialBlobsCount, worldSize, simulationDuration, maximumDayLength, foodQuantity)
+universe = Universe(initialBlobsCount, worldSize,
+                    simulationDuration, maximumDayLength, foodQuantity)
