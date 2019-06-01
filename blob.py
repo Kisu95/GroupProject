@@ -92,13 +92,13 @@ class Blob:
         return self.energy
 
     # Method useEnergy if blob is not in home
-    def useEnergy(self, day):
+    def useEnergy(self, day, world):
         if (self.inHome() == False):
             self.energy = self.getEnergy() - random()*0.1
             if (self.energy > 0):
                 return self.energy
             else:
-                day.killBlob(self)
+                self.kill(day, world)
 
     # Add energy for survivors
     def initEnergy(self):
@@ -134,7 +134,7 @@ class Blob:
             else:
                 direction = self.getDirectionToTarget(self.home)
         else:
-            self.useEnergy(day)
+            self.useEnergy(day, world)
             if (self.isAt(self.target)):
                 self.target = None
             # Try to find target where to go
