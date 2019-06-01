@@ -8,7 +8,7 @@ from numpy.linalg import norm
 from food import Food
 
 class Blob:
-    def __init__(self, world):
+    def __init__(self, world, parent):
         self.relativePosition = (0, 0)
         self.position = world.createBlob(self)
         self.home = self.position
@@ -63,13 +63,25 @@ class Blob:
 
     # Method handling food consumption
     def eat(self, food):
+        food.removeFromWorld()
         self.food += 1
+
+    # Method for day ending
+    def endDay(self, day, world):
+        if (self.food > 2):
+            self.replicate(day)
+        elif (self.food == 0):
+            self.kill(day, world)
 
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
         positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
         directionToTarget = degrees(atan2(*positionFromTarget))
         return directionToTarget
+
+    # Method returning blob position (in cells)
+    def getPosition(self):
+        return self.position
 
     # Method returning true blob position (with offset)
     def getTruePosition(self):
@@ -83,14 +95,19 @@ class Blob:
     def isAt(self, position):
         return True if (self.position == position) else False
 
+    # Method for blob killing
+    def kill(self, day, world):
+        day.killBlob(self)
+
     # Method for movement handling
-    def move(self, world):
+    def move(self, day, world):
         direction = random()*360
         distance = 0
         # Check if has eaten any food
         if (self.food > 0):
             # Check if returned home already
             if (self.inHome()):
+                day.blobMoveFinished(self)
                 return True
             else:
                 direction = self.getDirectionToTarget(self.home)
@@ -131,6 +148,12 @@ class Blob:
             self.relativePosition = (self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
             self.position = world.moveBlob(self, self.position, move)
 
+    # Method for new day preparation
+    def newDay(self, day, world):
+        self.food = 0
+        self.target = None
+        self.planDayRoute(world)
+
     # Method for daily route planning
     def planDayRoute(self, world):
         route = []
@@ -140,6 +163,10 @@ class Blob:
             y = floor(random()*(size[1]-2))+1
             route.append((x, y))
         self.plannedRoute = route
+
+    # Method handling blob replication
+    def replicate(self, day):
+        day.createBlob(self)
 
     # Method updates surrounding details by requesting appropriate slice of map
     def updateSurroundingsDetails(self, world):
