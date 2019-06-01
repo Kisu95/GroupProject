@@ -7,6 +7,7 @@ from numpy.linalg import norm
 # Files
 from food import Food
 
+
 class Blob:
     def __init__(self, world, parent):
         self.relativePosition = (0, 0)
@@ -14,6 +15,7 @@ class Blob:
         self.home = self.position
         self.food = 0
         self.speed = 1
+        self.energy = 1
         # Used for remembering current destination
         self.target = None
         self.updateSurroundingsDetails(world)
@@ -32,7 +34,8 @@ class Blob:
         for i in range(2):
             # Check if 0.5 offset barrier was exceeded
             if abs(self.relativePosition[i] + displacement[i]) > 0.5:
-                move[i] = floor(self.relativePosition[i] + displacement[i] + 0.5)
+                move[i] = floor(self.relativePosition[i] +
+                                displacement[i] + 0.5)
         return move
 
     # Method checking if movement in desired direction is possible
@@ -65,17 +68,20 @@ class Blob:
     def eat(self, food):
         food.removeFromWorld()
         self.food += 1
+        self.energy += 2
 
     # Method for day ending
     def endDay(self, day, world):
-        if (self.food > 2):
+        if (self.energy > 2):
             self.replicate(day)
+            self.energy -= 2
         elif (self.food == 0):
             self.kill(day, world)
 
     # Method returning direction to target in degrees
     def getDirectionToTarget(self, target):
-        positionFromTarget = (target[1] - self.position[1], target[0]- self.position[0])
+        positionFromTarget = (
+            target[1] - self.position[1], target[0] - self.position[0])
         directionToTarget = degrees(atan2(*positionFromTarget))
         return directionToTarget
 
@@ -83,7 +89,28 @@ class Blob:
     def getPosition(self):
         return self.position
 
+    # Method returning blob remaining energy
+    def getEnergy(self):
+        return self.energy
+
+    # Method useEnergy if blob is not in home, replicate if energy more then 2
+    def useEnergy(self, day, world):
+        if (self.inHome() == False):
+            self.energy = self.getEnergy(
+            ) - (self.relativePosition[1] - self.relativePosition[0])
+            if (self.energy > 0):
+                return self.energy
+            # elif (self.energy > 2):
+            #    self.replicate(day)
+            else:
+                self.kill(day, world)
+
+    # Add energy for survivors
+    # def initEnergy(self):
+    #    self.energy = self.getEnergy() + 1
+
     # Method returning true blob position (with offset)
+
     def getTruePosition(self):
         return (self.position[0] + self.relativePosition[0], self.position[1] + self.relativePosition[1])
 
@@ -112,6 +139,7 @@ class Blob:
             else:
                 direction = self.getDirectionToTarget(self.home)
         else:
+            self.useEnergy(day, world)
             if (self.isAt(self.target)):
                 self.target = None
             # Try to find target where to go
@@ -141,11 +169,13 @@ class Blob:
             displacement = (dx, dy)
             move = self.calculateMovement(displacement)
         # Update position relative to cell
-        self.relativePosition = (self.relativePosition[0] + dx, self.relativePosition[1] + dy)
+        self.relativePosition = (
+            self.relativePosition[0] + dx, self.relativePosition[1] + dy)
         # Execute movement
-        if (abs(move[0])>0 or abs(move[1])>0):
+        if (abs(move[0]) > 0 or abs(move[1]) > 0):
             # Update position relative to cell substracting movement length (to get position in relation to new cell)
-            self.relativePosition = (self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
+            self.relativePosition = (
+                self.relativePosition[0] - move[0], self.relativePosition[1] - move[1])
             self.position = world.moveBlob(self, self.position, move)
 
     # Method for new day preparation
@@ -158,7 +188,7 @@ class Blob:
     def planDayRoute(self, world):
         route = []
         size = world.getSize()
-        for i in range(0,floor(random()*3)):
+        for i in range(0, floor(random()*3)):
             x = floor(random()*(size[0]-2))+1
             y = floor(random()*(size[1]-2))+1
             route.append((x, y))
@@ -170,6 +200,7 @@ class Blob:
 
     # Method updates surrounding details by requesting appropriate slice of map
     def updateSurroundingsDetails(self, world):
-        chunk = (slice(self.position[0]-1, self.position[0]+1, 1), slice(self.position[1]-1, self.position[1]+1, 1))
+        chunk = (slice(self.position[0]-1, self.position[0]+1, 1),
+                 slice(self.position[1]-1, self.position[1]+1, 1))
         self.surroundings = world.getAreaDetails(chunk)
         return self.surroundings

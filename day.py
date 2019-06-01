@@ -3,6 +3,7 @@ from copy import copy
 # Files
 from blob import Blob
 
+
 class Day:
     def __init__(self, number, maximumDayLength, world, foodQuantity, Blobs):
         self.dayNumber = number
@@ -15,7 +16,7 @@ class Day:
         # Start day simulation
         self.startDay()
 
-    # Method removes blob from movingBlobs 
+    # Method removes blob from movingBlobs
     def blobMoveFinished(self, blob):
         self.movingBlobs.remove(blob)
 
@@ -29,7 +30,7 @@ class Day:
         print(len(self.movingBlobs))
         for blob in copy(self.aliveBlobs):
             blob.endDay(self, self.world)
-        for food in copy (self.world.getRemainingFood()):
+        for food in copy(self.world.getRemainingFood()):
             food.removeFromWorld()
         self.world.draw()
 
